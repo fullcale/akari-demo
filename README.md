@@ -9,6 +9,9 @@
 - `tools/convert_videos.sh` … スタッフ動画（現行 `wp-content/themes/akari/video/video2023/`）をH.264のMP4＋サムネイルに変換（→`site/video`）。写真と動画の対応は `build.py` の `VIDEOS`
 - `tools/make_logo.py` … 白背景ロゴを透過化（ヘッダー用・フッター白文字用）
 - `site/css/style.css`, `site/js/main.js`
+- **B案**（`site/b/`）… 神山まるごと高専（kamiyama.ac.jp）の構成と動きを参考にした案。`build.py` が A案（`site/`）に続けて `VARIANT = "b"` で全ページを `site/b/` に出力する。トップは `build_index_b()`、下層ページは A案と同じ中身でヘッダー・フッター・動きだけ違う。画像・動画・CSS・JSは A案のものを `../` で共用
+  - 動き：`site/css/b.css`、`site/js/b.js`（GSAP＋ScrollTrigger と Swiper をCDNから読み込み）。端末で「視差効果を減らす」設定の人には動かさない。CDNが読めなくても中身は表示される
+  - `b.js` は `main.js` と同じページで読むので、全体を `{ }` で囲んで変数名の衝突を避けている
 
 ## 決まりごと
 - ファイル名＝現行サイトのURLスラッグ。本番は同じURL（拡張子なし）で公開し、SEOを引き継ぐ
