@@ -490,3 +490,11 @@ body { font-size: 17px; font-weight: 500; }
   .sp-cta a small { font-size: 12px; }
   .contact-tel { padding: 20px 22px; }
 }
+
+.voice-detail { background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 36px 40px; margin-bottom: 28px; }
+.voice-head { display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: center; margin-bottom: 8px; }
+.voice-head .voice-photo { margin: 0; aspect-ratio: 1; }
+.voice-head h2 { font-size: 26px; margin-bottom: 10px; }
+.voice-detail .prose { max-width: none; }
+.voice-detail .prose h3 { font-size: 18px; margin: 28px 0 8px; padding-left: 12px; border-left: 3px solid var(--akari); }
+@media (max-width: 860px) { .voice-detail { padding: 24px 20px; } .voice-head { grid-template-columns: 1fr; gap: 16px; } .voice-head h2 { font-size: 22px; } }
