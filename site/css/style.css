@@ -499,3 +499,15 @@ body { font-size: 17px; font-weight: 500; }
 .voice-detail .prose { max-width: none; }
 .voice-detail .prose h3 { font-size: 18px; margin: 28px 0 8px; padding-left: 12px; border-left: 3px solid var(--akari); }
 @media (max-width: 860px) { .voice-detail { padding: 24px 20px; } .voice-head { grid-template-columns: 1fr; gap: 16px; } .voice-head h2 { font-size: 22px; } }
+
+/* トップのスタッフ欄 */
+.team { display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; align-items: center; margin-bottom: 64px; }
+.team-photo { margin: 0; }
+.team-photo img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 30%; border-radius: 18px; box-shadow: var(--shadow); }
+.team-body h2 { font-size: clamp(26px, 3vw, 34px); margin-bottom: 18px; }
+.team-body p { color: var(--ink-2); }
+.team-body .btn { margin-top: 10px; }
+@media (max-width: 860px) {
+  .team { grid-template-columns: 1fr; gap: 28px; margin-bottom: 40px; }
+  .team-body .btn { width: 100%; }
+}

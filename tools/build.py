@@ -415,9 +415,16 @@ def build_index():
 
 <section class="section section-alt">
   <div class="container">
-    <div class="sec-head center"><span class="sec-en">Staff</span><h2>担当するのは、この顔ぶれです</h2><p>税理士・社会保険労務士・経営承継アドバイザーを含むスタッフが、チームでお客様を担当します。</p></div>
-    <figure class="staff-photo reveal"><img src="img/top-staff.webp" alt="税理士法人ACEあかり事務所のスタッフ" loading="lazy" width="1400" height="788"></figure>
-    <p style="text-align:center;margin-bottom:56px"><a class="btn btn-ghost" href="{u('staff')}">スタッフ紹介を見る <span class="arrow">→</span></a></p>
+    <div class="team reveal">
+      <figure class="team-photo"><img src="img/top-staff.webp" alt="税理士法人ACEあかり事務所のスタッフ" loading="lazy" width="1400" height="788"></figure>
+      <div class="team-body">
+        <span class="sec-en">Our Team</span>
+        <h2>チームでサポートします</h2>
+        <p>税理士・社会保険労務士・経営承継アドバイザーを含むスタッフが、チームでお客様を担当します。</p>
+        <p>スタッフ紹介では、一人ひとりのプロフィールと<b>自己紹介動画</b>をご覧いただけます。どんな人が担当するのか、ご相談の前にぜひご覧ください。</p>
+        <a class="btn btn-primary" href="{u('staff')}">スタッフ紹介を見る <span class="arrow">→</span></a>
+      </div>
+    </div>
     <div class="recruit-band reveal">
       <div><h3>一緒に働く仲間を募集しています</h3><p>簿記2級以上の方、税理士・科目合格者の方。通年で採用しています。</p></div>
       <a class="btn btn-primary" href="{u('recruit')}">採用情報を見る <span class="arrow">→</span></a>
