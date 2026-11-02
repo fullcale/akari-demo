@@ -7,6 +7,13 @@ JOBS = [
     # 現行サイトで表示されている位置に合わせて使う
     ("slider-2-2023.jpg", "hero-team", 2000, False),        # トップのスライダー／法人案内
     ("hikari.png", "top-ichigu", 900, False),               # トップ「一隅を照らす」欄
+    ("staff-link-2023.png", "top-staff", 1400, False),       # トップ「スタッフ紹介はこちら」欄
+    ("Zeimu2.png", "circle-zeimu", 326, False),             # トップ業務案内の丸い写真
+    ("morigami_circle.png", "circle-souzoku", 326, False),
+    ("Support2.png", "circle-support", 326, False),
+    ("School2.png", "circle-school", 326, False),
+    ("ujiie_circle.png", "circle-roumu", 326, False),
+    ("Renkei2.png", "circle-cowork", 326, False),
     # 各業務ページ冒頭のメイン写真（トップの丸い写真と同じ写真）
     ("service-zeimu.png", "main-zeimu", 900, False),
     ("morigami_side.jpg", "main-souzoku", 1200, False),
@@ -34,7 +41,7 @@ os.makedirs(dst, exist_ok=True)
 for f, name, w, sq in JOBS:
     im = Image.open(os.path.join(src, f))
     im = ImageOps.exif_transpose(im)
-    im = im.convert("RGBA" if name in ("logo-mark", "cowork-diagram") else "RGB")
+    im = im.convert("RGBA" if name in ("logo-mark", "cowork-diagram") or name.startswith("circle-") else "RGB")
     if sq:
         im = ImageOps.fit(im, (w, w), centering=(0.5, 0.35))
     elif im.width > w:

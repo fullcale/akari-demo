@@ -316,9 +316,10 @@ def build_index():
     ]
     reasons_html = "".join(
         f'<div class="reason reveal"><span class="reason-no">{n}</span><h3>{t}</h3><p>{d}</p></div>' for n, t, d in reasons)
-    cards = "".join(f"""<a class="svc-card reveal" href="{u(s)}">
-  <img src="img/{img}.webp" alt="{t}" loading="lazy">
-  <div class="svc-body"><h3>{t}</h3><p>{d}</p><span class="svc-more">詳しく見る →</span></div>
+    cards = "".join(f"""<a class="svc-item reveal" href="{u(s)}">
+  <img src="img/circle-{s}.webp" alt="{t}" loading="lazy" width="326" height="326">
+  <span class="svc-label">{t}</span>
+  <p>{d}</p>
 </a>""" for s, t, img, d in SERVICES)
     worries = ["決算のたびに、納税額を見て驚いている", "試算表は届くけれど、数字の見方が分からない",
                "起業したいが、個人と法人のどちらが得か迷っている", "うちに相続税がかかるのか、まず知りたい",
@@ -329,25 +330,25 @@ def build_index():
     faces = "".join(f'<img src="img/{s[0]}.webp" alt="{s[1]}" loading="lazy" width="480" height="480">'
                     for s in STAFF if s[0].startswith("p-"))
     body = f"""<section class="hero">
-  <div class="container hero-grid">
-    <div>
+  <figure class="hero-photo">
+    <img src="img/hero-team.webp" alt="税理士法人ACEあかり事務所のスタッフ集合写真" width="2000" height="1500" fetchpriority="high">
+  </figure>
+  <div class="container hero-body">
+    <div class="hero-card">
       <span class="hero-eyebrow">香川県高松市の税理士事務所</span>
       <h1>一隅を照らす、<br><span class="light">町の税理士。</span></h1>
       <p class="hero-lead">毎月の訪問で数字を一緒に見て、決算の着地点を早めにつかむ。税務・会計から相続、労務まで、高松の経営者とご家族のいちばん近い相談相手でありたいと考えています。</p>
-      <ul class="hero-badges"><li>毎月の定期訪問</li><li>社労士が同じ事務所</li><li>相続・事業承継</li><li>見積もり無料</li></ul>
+      <ul class="hero-badges"><li>毎月の訪問</li><li>社労士が同じ事務所</li><li>相続・事業承継</li><li>見積もり無料</li></ul>
       <div class="hero-actions">
         <a class="btn btn-primary" href="{u('contact')}">無料で相談する <span class="arrow">→</span></a>
-        <a class="btn btn-ghost" href="{u('service')}">業務案内を見る</a>
+        <a class="hero-tel" href="{TEL_LINK}"><b>{OFFICE['tel']}</b><small>平日 {OFFICE['hours']}</small></a>
       </div>
-    </div>
-    <figure class="hero-photo">
-      <img src="img/hero-team.webp" alt="税理士法人ACEあかり事務所のスタッフ集合写真" width="2000" height="1500" fetchpriority="high">
-      <figcaption>
+      <div class="hero-stats">
         <div class="hero-stat"><b>2001<small>年</small></b><span>開業</span></div>
         <div class="hero-stat"><b class="tbd">13<small>名</small></b><span>スタッフ</span></div>
-        <div class="hero-stat"><b>税×労</b><span>ワンストップ</span></div>
-      </figcaption>
-    </figure>
+        <div class="hero-stat"><b>税理士×社労士</b><span>同じ事務所でワンストップ</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -366,7 +367,7 @@ def build_index():
   </div>
 </section>
 
-<section class="section">
+<section class="section section-yellow">
   <div class="container">
     <div class="sec-head center"><span class="sec-en">Service</span><h2>業務案内</h2><p>日々の記帳から決算、相続、労務まで。ひとつの事務所で、経営と暮らしのお金をまとめてサポートします。</p></div>
     <div class="svc-grid">{cards}</div>
@@ -399,7 +400,7 @@ def build_index():
 <section class="section section-alt">
   <div class="container">
     <div class="sec-head center"><span class="sec-en">Staff</span><h2>担当するのは、この顔ぶれです</h2><p>税理士・社会保険労務士・経営承継アドバイザーを含むスタッフが、チームでお客様を担当します。</p></div>
-    <div class="faces reveal">{faces}</div>
+    <figure class="staff-photo reveal"><img src="img/top-staff.webp" alt="税理士法人ACEあかり事務所のスタッフ" loading="lazy" width="1400" height="788"></figure>
     <p style="text-align:center;margin-bottom:56px"><a class="btn btn-ghost" href="{u('staff')}">スタッフ紹介を見る <span class="arrow">→</span></a></p>
     <div class="recruit-band reveal">
       <div><h3>一緒に働く仲間を募集しています</h3><p>簿記2級以上の方、税理士・科目合格者の方。通年で採用しています。</p></div>
@@ -431,13 +432,14 @@ def build_index():
 
 
 def build_service():
-    cards = "".join(f"""<a class="svc-card reveal" href="{u(s)}">
-  <img src="img/{img}.webp" alt="{t}" loading="lazy">
-  <div class="svc-body"><h3>{t}</h3><p>{d}</p><span class="svc-more">詳しく見る →</span></div>
+    cards = "".join(f"""<a class="svc-item reveal" href="{u(s)}">
+  <img src="img/circle-{s}.webp" alt="{t}" loading="lazy" width="326" height="326">
+  <span class="svc-label">{t}</span>
+  <p>{d}</p>
 </a>""" for s, t, img, d in SERVICES)
     body = page_hero([(None, "業務案内")], "業務案内",
                      "日々の記帳から決算・申告、相続、労務まで。ひとつの窓口で、経営と暮らしのお金のことをまとめてご相談いただけます。") + f"""
-<section class="section"><div class="container"><div class="svc-grid">{cards}</div>
+<section class="section section-yellow"><div class="container"><div class="svc-grid">{cards}</div>
 <p style="text-align:center;margin-top:40px"><a class="btn btn-ghost" href="{u('fee')}">料金の目安を見る <span class="arrow">→</span></a></p></div></section>"""
     page("service", "業務案内", "税理士法人ACEあかり事務所の業務案内。会計・税務、相続・事業承継、経営サポート、経営実務スクール、労務・社会保険、他士業との連携。", body, "service")
 
