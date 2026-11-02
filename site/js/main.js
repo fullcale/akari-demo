@@ -2,6 +2,9 @@
 const menuBtn = document.querySelector('.menu-btn');
 if (menuBtn) {
   menuBtn.addEventListener('click', () => {
+    // メニューはヘッダーの下端から画面の下端まで固定表示する
+    const bottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    document.documentElement.style.setProperty('--nav-top', `${Math.max(0, bottom)}px`);
     const open = document.body.classList.toggle('nav-open');
     menuBtn.setAttribute('aria-expanded', open);
   });

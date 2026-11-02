@@ -28,6 +28,10 @@ def u(slug):
     return "index.html" if slug == "" else f"{slug}.html"
 
 
+# CSS/JSの中身から版番号を作る（公開サーバーのキャッシュ対策）
+import hashlib
+ASSET_VER = hashlib.md5((OUT / "css" / "style.css").read_bytes() + (OUT / "js" / "main.js").read_bytes()).hexdigest()[:8]
+
 TEL_LINK = "tel:" + OFFICE["tel"].replace("-", "")
 
 NAV = [
@@ -218,7 +222,7 @@ def footer():
   <a class="tel" href="{TEL_LINK}">電話する<small>平日 {OFFICE['hours']}</small></a>
   <a class="mail" href="{u('contact')}">無料相談<small>24時間受付</small></a>
 </div>
-<script src="js/main.js"></script>"""
+<script src="js/main.js?v={ASSET_VER}"></script>"""
 
 
 def page(slug, title, desc, body, current=None, home=False):
@@ -244,7 +248,7 @@ def page(slug, title, desc, body, current=None, home=False):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho+B1:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v={ASSET_VER}">
 <script type="application/ld+json">{jsonld()}</script>
 </head>
 <body>
