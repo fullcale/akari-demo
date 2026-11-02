@@ -1,4 +1,4 @@
-// B案：動き（GSAP + ScrollTrigger、Swiper）。メニュー・フォーム・スタッフ動画は main.js
+// B案：動き（GSAP + ScrollTrigger）。メニュー・フォーム・スタッフ動画は main.js
 {
 const root = document.documentElement;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -39,24 +39,6 @@ if (modal) {
   modal.querySelector('.b-modal-close').addEventListener('click', () => modal.close());
   modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
   modal.addEventListener('close', () => { video.pause(); video.removeAttribute('src'); video.load(); });
-}
-
-// ---------- お知らせの絞り込み ----------
-document.querySelectorAll('.b-tabs button').forEach((btn, _, all) => btn.addEventListener('click', () => {
-  all.forEach((b) => b.setAttribute('aria-pressed', b === btn));
-  const cat = btn.dataset.cat;
-  document.querySelectorAll('.b-news-list li').forEach((li) => { li.hidden = cat !== 'all' && li.dataset.cat !== cat; });
-}));
-
-// ---------- トピックバナー：ゆっくり流れ続け、指でスワイプもできる ----------
-if (window.Swiper && document.querySelector('.b-topics')) {
-  new Swiper('.b-topics', {
-    slidesPerView: 'auto', spaceBetween: 16, loop: true, grabCursor: true,
-    speed: reduce ? 500 : 7000,
-    autoplay: reduce ? false : { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
-    freeMode: { enabled: true, momentum: true },
-    breakpoints: { 861: { spaceBetween: 28 } },
-  });
 }
 
 // ---------- 文字を1文字ずつ span に分ける ----------
