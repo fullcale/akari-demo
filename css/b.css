@@ -1,0 +1,355 @@
+/* B案：神山まるごと高専の構成を参考にした「動きのある」トップ・共通ヘッダー
+   style.css の上に重ねて読み込む。色・フォントはA案と共通 */
+
+:root { --bh-h: 84px; --ease: cubic-bezier(.22, 1, .36, 1); }
+
+/* ---------- header ---------- */
+.bh { position: fixed; inset: 0 0 auto; z-index: 70; transition: transform .45s var(--ease), background .3s, box-shadow .3s; }
+.bh-ribbon { background: #1d1d1d; color: #e9e3d3; font-size: 11.5px; text-align: center; padding: 4px 12px; letter-spacing: .04em; line-height: 1.6; }
+.bh-ribbon a { color: var(--akari-yellow); text-decoration: underline; margin-left: 8px; }
+.bh-ribbon .tbd { color: var(--ink); padding: 0 3px; }
+.bh-bar { background: rgba(255, 253, 248, .94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); transition: background .3s, border-color .3s; }
+.bh-inner { width: min(1400px, 100% - 64px); margin-inline: auto; height: var(--bh-h); display: flex; align-items: center; gap: 24px; }
+.bh-logo img { height: 42px; width: auto; transition: filter .3s; }
+.bh-nav { margin-left: auto; }
+.bh-nav > ul { display: flex; gap: 4px; }
+.bh-nav > ul > li { position: relative; }
+.bh-nav > ul > li > a { display: block; padding: 10px 14px; color: var(--ink); font-weight: 700; font-size: 16px; white-space: nowrap; position: relative; }
+.bh-nav > ul > li > a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 4px; height: 2px; background: var(--akari-grad); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
+.bh-nav > ul > li:hover > a::after, .bh-nav > ul > li > a[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
+.bh-drop { position: absolute; top: 100%; left: 50%; min-width: 240px; padding: 14px; background: var(--white); border-radius: 14px; box-shadow: 0 18px 50px rgba(0, 0, 0, .14);
+  opacity: 0; visibility: hidden; transform: translate(-50%, 8px); transition: opacity .25s, transform .35s var(--ease), visibility .25s; }
+.bh-nav li:hover > .bh-drop, .bh-nav li:focus-within > .bh-drop { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.bh-drop a { display: block; padding: 9px 12px; border-radius: 8px; color: var(--ink); font-size: 15px; font-weight: 500; white-space: nowrap; }
+.bh-drop a:hover { background: var(--akari-soft); }
+.bh-cta { display: flex; align-items: center; gap: 16px; }
+.bh-tel { line-height: 1.2; text-align: right; color: var(--ink); white-space: nowrap; }
+.bh-tel b { display: block; font-family: var(--serif); font-size: 21px; letter-spacing: .04em; }
+.bh-tel small { font-size: 12px; color: var(--ink-3); }
+.bh-cta .btn { white-space: nowrap; }
+.bh-menu { display: none; }
+
+/* ヒーローの上では透明・白文字 */
+.bh.is-over .bh-bar { background: transparent; border-color: transparent; backdrop-filter: none; }
+.bh.is-over .bh-logo img { filter: brightness(0) invert(1); }
+.bh.is-over .bh-nav > ul > li > a, .bh.is-over .bh-tel, .bh.is-over .bh-tel small { color: #fff; }
+.bh.is-hidden { transform: translateY(-100%); }
+
+/* スマホメニュー（全画面） */
+.bm { position: fixed; inset: 0; z-index: 65; background: #1f1f1f; color: #fff; overflow-y: auto; padding: 96px 28px 140px;
+  clip-path: circle(0 at calc(100% - 44px) 56px); visibility: hidden; transition: clip-path .7s var(--ease), visibility 0s .7s; }
+.menu-open .bm { clip-path: circle(150% at calc(100% - 44px) 56px); visibility: visible; transition: clip-path .7s var(--ease), visibility 0s; }
+.menu-open { overflow: hidden; }
+.bm-group { margin-bottom: 30px; opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .6s var(--ease); }
+.menu-open .bm-group { opacity: 1; transform: none; transition-delay: calc(.18s + var(--i) * .07s); }
+.bm-group h4 { font-family: var(--serif); font-size: 13px; letter-spacing: .3em; color: var(--akari); margin-bottom: 8px; }
+.bm-group a { display: block; color: #fff; font-family: var(--serif); font-size: 22px; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.bm-group.cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 18px; }
+.bm-group.cols h4 { grid-column: 1 / -1; }
+.bm-group.cols a { font-size: 17px; }
+.bm-tel { display: block; margin-top: 10px; padding: 18px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 14px; text-align: center; color: #fff; }
+.bm-tel b { display: block; font-family: var(--serif); font-size: 28px; letter-spacing: .06em; }
+.bm-tel small { color: #bbb; }
+
+/* ---------- 共通の動き ---------- */
+html.anim [data-anim] { opacity: 0; }
+html.anim .bhero [data-hero] { opacity: 0; }
+.ch { display: inline-block; will-change: transform; }
+.word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+.b-sec { padding: 140px 0; position: relative; }
+.b-head { margin-bottom: 64px; }
+.b-head.center { text-align: center; }
+.b-en { display: block; font-family: var(--serif); font-size: clamp(44px, 7vw, 104px); line-height: 1; letter-spacing: .02em; font-weight: 500;
+  background: var(--akari-grad); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 14px; }
+.b-head h2 { font-size: clamp(24px, 2.6vw, 34px); }
+.b-head p { color: var(--ink-2); margin-top: 18px; max-width: 40em; }
+.b-head.center p { margin-inline: auto; }
+.b-more { display: inline-flex; align-items: center; gap: 16px; color: var(--ink); font-weight: 700; letter-spacing: .08em; }
+.b-more i { position: relative; width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; overflow: hidden; transition: background .3s, border-color .3s; }
+.b-more i::before { content: "→"; font-style: normal; transition: transform .4s var(--ease); }
+.b-more:hover { color: var(--ink); }
+.b-more:hover i { background: var(--akari); border-color: var(--akari); }
+.b-more:hover i::before { animation: arrowLoop .5s var(--ease); }
+@keyframes arrowLoop { 0% { transform: none; } 49% { transform: translateX(28px); } 50% { transform: translateX(-28px); } 100% { transform: none; } }
+
+.b-en .ch { background: var(--akari-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.b-en { white-space: nowrap; }
+.b-news .b-en, .b-reasons-head .b-en, .b-svc-intro .b-en, .b-team-body .b-en { font-size: clamp(44px, 5vw, 72px); }
+
+/* ---------- opening ---------- */
+.b-open { position: fixed; inset: 0; z-index: 100; background: #1d1d1d; display: grid; place-items: center; pointer-events: none; }
+.b-open img { width: 84px; opacity: 0; }
+.b-open img { transform: translateY(12px); }
+.b-open i { position: absolute; left: 50%; top: 50%; width: 0; height: 2px; background: var(--akari-grad); transform: translate(-50%, 64px); }
+html:not(.anim) .b-open { display: none; }
+/* JSが止まっても画面がふさがれたままにならないように */
+.b-open { animation: openFailsafe .4s 4s forwards; }
+@keyframes openFailsafe { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- hero ---------- */
+/* 文字は写真の上に重ねない（顔を隠さない）。写真は内側の枠から、スクロールで画面いっぱいに広がる */
+.bhero { position: relative; overflow: hidden; color: #fff; background: #1d1d1d; padding: calc(var(--bh-h) + 26px + 64px) 0 0; }
+.bhero::before { content: ""; position: absolute; width: 900px; height: 900px; right: -260px; top: -420px; border-radius: 50%; background: radial-gradient(circle, rgba(240, 184, 48, .26), rgba(240, 184, 48, 0) 62%); pointer-events: none; }
+.bhero-body { position: relative; }
+.bhero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; letter-spacing: .2em; color: var(--akari-pale); margin: 0; }
+.bhero-eyebrow::before { content: ""; width: 36px; height: 2px; background: var(--akari-grad); }
+.bhero-title { font-size: clamp(40px, 5.6vw, 88px); line-height: 1.3; letter-spacing: .1em; margin: 18px 0 30px; }
+.bhero-title .line { display: inline-block; overflow: hidden; padding-bottom: .08em; vertical-align: bottom; }
+.bhero-title .gold .ch { background: var(--akari-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bhero-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px 40px; }
+.bhero-sub { font-size: 17px; max-width: 32em; color: #e9e5da; margin: 0; }
+.bhero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.bhero-movie { display: inline-flex; align-items: center; gap: 14px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .4); color: #fff;
+  padding: 10px 26px 10px 10px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 15px; letter-spacing: .06em; cursor: pointer; transition: background .3s; }
+.bhero-movie:hover { background: rgba(255, 255, 255, .2); }
+.bhero-movie i { width: 40px; height: 40px; border-radius: 50%; background: var(--akari-grad); display: grid; place-items: center; position: relative; }
+.bhero-movie i::before { content: ""; border-left: 11px solid var(--ink); border-top: 7px solid transparent; border-bottom: 7px solid transparent; margin-left: 3px; }
+.bhero-movie i::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1.5px solid var(--akari); animation: pulse 2.2s ease-out infinite; }
+@keyframes pulse { from { transform: scale(.85); opacity: 1; } to { transform: scale(1.45); opacity: 0; } }
+.bhero-photo { position: relative; margin-top: 64px; }
+.bhero-media { height: min(92vh, 56.25vw); min-height: 420px; overflow: hidden; clip-path: inset(0 7% 0 7% round 28px); background: #2a2a2a; }
+.bhero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+html:not(.anim) .bhero-media { clip-path: none; }
+.bhero-circle { position: absolute; right: 9%; top: -80px; width: 160px; height: 160px; z-index: 2; border-radius: 50%; background: #1d1d1d; }
+.bhero-circle svg { width: 100%; height: 100%; animation: rotate 22s linear infinite; }
+.bhero-circle text { fill: #fff; font-family: var(--serif); font-size: 11.5px; letter-spacing: .32em; }
+.bhero-circle::after { content: ""; position: absolute; inset: 50% auto auto 50%; width: 46px; height: 46px; border-radius: 50%; transform: translate(-50%, -50%); background: var(--akari-grad); box-shadow: 0 0 40px rgba(240, 184, 48, .7); }
+@keyframes rotate { to { transform: rotate(360deg); } }
+.bhero-scroll { position: absolute; left: 2.6%; top: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-family: var(--serif); font-size: 12px; letter-spacing: .3em; color: #fff; writing-mode: vertical-rl; }
+.bhero-scroll i { width: 1px; height: 80px; background: rgba(255, 255, 255, .3); position: relative; overflow: hidden; }
+.bhero-scroll i::after { content: ""; position: absolute; inset: 0; background: var(--akari-yellow); animation: barAnimation 1.9s cubic-bezier(.3, .4, .1, 1) infinite; }
+@keyframes barAnimation { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
+
+/* ---------- トピック（横に流れるバナー） ---------- */
+.b-topics { padding: 56px 0 24px; overflow: hidden; }
+.b-topics .swiper-wrapper { transition-timing-function: linear !important; }
+.b-topic { width: 340px; display: block; color: var(--ink); }
+.b-topic figure { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper-2); }
+.b-topic img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.b-topic:hover img { transform: scale(1.06); }
+.b-topic > span { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-weight: 700; font-size: 16px; }
+.b-topic > span::after { content: "→"; color: var(--akari-deep); }
+.b-topic small { display: block; font-size: 12.5px; color: var(--ink-3); font-weight: 500; }
+
+/* ---------- お知らせ ---------- */
+.b-news { display: grid; grid-template-columns: 300px 1fr; gap: 56px; }
+.b-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.b-tabs button { font: inherit; font-size: 14px; font-weight: 700; padding: 8px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--white); color: var(--ink-2); cursor: pointer; transition: .25s; }
+.b-tabs button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.b-news-list li { border-bottom: 1px solid var(--line); transition: opacity .3s; }
+.b-news-list li[hidden] { display: none; }
+.b-news-list .row { display: grid; grid-template-columns: 110px 110px 1fr; gap: 16px; padding: 22px 4px; align-items: baseline; }
+.b-news-list time { font-family: var(--serif); color: var(--ink-3); }
+
+/* ---------- 想い（スクロールで文字が濃くなる） ---------- */
+.b-about { background: #1d1d1d; color: #fff; overflow: hidden; }
+.b-about .b-en { margin-bottom: 40px; }
+.b-about-glow { position: absolute; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px; left: 50%; top: 10%; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 184, 48, .30), rgba(240, 184, 48, 0) 62%); pointer-events: none; }
+.b-about-text { position: relative; font-family: var(--serif); font-size: clamp(22px, 2.9vw, 40px); line-height: 2; letter-spacing: .08em; max-width: 26em; }
+.b-about-text .ch { color: rgba(255, 255, 255, .16); }
+html:not(.anim) .b-about-text .ch { color: #fff; }
+.b-about-sign { position: relative; margin-top: 48px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px 48px; }
+.b-about-sign .who { font-family: var(--serif); }
+.b-about-sign .who small { display: block; color: #aaa; font-family: var(--sans); font-size: 13px; }
+.b-about-sign .who b { font-size: 24px; letter-spacing: .16em; }
+.b-about .b-more, .b-about .b-more:hover { color: #fff; }
+.b-about .b-more i { border-color: #fff; }
+.b-about .b-more:hover i { color: var(--ink); }
+
+/* ---------- 選ばれる理由 ---------- */
+.b-reasons { display: grid; grid-template-columns: 380px 1fr; gap: 72px; align-items: start; }
+.b-reasons-head { position: sticky; top: 140px; }
+.b-reason { display: grid; grid-template-columns: 110px 1fr; gap: 24px; padding: 44px 0; border-top: 1px solid var(--line); }
+.b-reason:last-child { border-bottom: 1px solid var(--line); }
+.b-reason-no { font-family: var(--serif); font-size: 72px; line-height: 1; background: var(--akari-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.b-reason h3 { font-size: clamp(21px, 2vw, 26px); margin-bottom: 12px; }
+.b-reason p { color: var(--ink-2); margin: 0; }
+
+/* ---------- 数字 ---------- */
+.b-stats { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--white); border-radius: 24px; box-shadow: var(--shadow); margin-top: 96px; }
+.b-stat { padding: 40px 24px; text-align: center; }
+.b-stat + .b-stat { border-left: 1px solid var(--line); }
+.b-stat > span { display: block; font-size: 14px; color: var(--ink-3); font-weight: 700; letter-spacing: .1em; }
+.b-stat b { font-family: var(--serif); font-size: clamp(48px, 5.6vw, 76px); line-height: 1.2; font-weight: 600; }
+.b-stat b small { font-size: .32em; margin-left: 4px; }
+
+/* ---------- 業務（PCは横スクロール） ---------- */
+.b-svc { background: linear-gradient(180deg, var(--akari-soft), #fffbea); overflow: hidden; }
+.b-svc-wrap { display: flex; align-items: center; height: 100vh; min-height: 680px; padding-top: 60px; }
+.b-svc-track { display: flex; gap: 32px; padding: 0 max(32px, calc((100vw - 1320px) / 2)); }
+.b-svc-intro { flex: none; width: 380px; display: flex; flex-direction: column; justify-content: center; }
+.b-svc-intro .b-head { margin-bottom: 32px; }
+.b-svc-card { flex: none; width: 420px; background: var(--white); border-radius: 22px; overflow: hidden; color: var(--ink); box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.b-svc-card:hover { color: var(--ink); }
+.b-svc-card figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
+.b-svc-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+.b-svc-card:hover img { transform: scale(1.06); }
+.b-svc-body { padding: 26px 30px 30px; flex: 1; display: flex; flex-direction: column; }
+.b-svc-body em { font-style: normal; font-family: var(--serif); color: var(--akari-deep); font-size: 15px; letter-spacing: .2em; }
+.b-svc-body h3 { font-size: 24px; margin: 4px 0 10px; }
+.b-svc-body p { font-size: 15.5px; color: var(--ink-2); flex: 1; }
+.b-svc-body .b-more { font-size: 14px; }
+.b-svc-body .b-more i { width: 40px; height: 40px; }
+.b-svc-progress { position: absolute; left: max(32px, calc((100vw - 1320px) / 2)); right: max(32px, calc((100vw - 1320px) / 2)); bottom: 56px; height: 2px; background: rgba(0, 0, 0, .1); }
+.b-svc-progress i { position: absolute; inset: 0; background: var(--akari-grad); transform-origin: left; transform: scaleX(0); }
+
+/* ---------- スタッフ（顔写真が流れる） ---------- */
+.b-team { overflow: hidden; }
+.b-team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.b-marquee { display: grid; gap: 16px; overflow: hidden; border-radius: 20px; min-width: 0; }
+.b-marquee-row { display: flex; gap: 16px; width: max-content; animation: marquee 48s linear infinite; }
+.b-marquee-row.rev { animation-direction: reverse; }
+.b-marquee-row img { width: 168px; height: 210px; object-fit: cover; border-radius: 16px; flex: none; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.b-team-body h2 { font-size: clamp(26px, 3vw, 36px); margin-bottom: 20px; }
+.b-team-body p { color: var(--ink-2); }
+.b-team-body .b-more { margin-top: 18px; }
+
+/* ---------- お客様の声 ---------- */
+.b-voices { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.b-voice { color: var(--ink); display: block; }
+.b-voice:hover { color: var(--ink); }
+.b-voice figure { margin: 0 0 22px; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 10; }
+.b-voice img { width: 100%; height: 118%; object-fit: cover; object-position: 50% 30%; }
+.b-voice blockquote { margin: 0 0 14px; font-family: var(--serif); font-size: 18px; line-height: 1.9; }
+.b-voice b { display: block; }
+.b-voice small { color: var(--ink-3); }
+
+/* ---------- バナー群 ---------- */
+.b-banners { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 24px; }
+.b-banner { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 300px; border-radius: 22px; overflow: hidden; color: #fff; padding: 30px; isolation: isolate; }
+.b-banner:hover { color: #fff; }
+.b-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .9s var(--ease); }
+.b-banner::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .78) 75%); }
+.b-banner:hover img { transform: scale(1.06); }
+.b-banner em { font-style: normal; font-family: var(--serif); font-size: 13px; letter-spacing: .3em; color: var(--akari-yellow); }
+.b-banner h3 { font-size: 24px; margin: 4px 0 6px; }
+.b-banner p { margin: 0; font-size: 14.5px; color: #eee; }
+.b-banner.solid { background: var(--akari-grad); color: var(--ink); }
+.b-banner.solid::before { display: none; }
+.b-banner.solid em { color: var(--ink); opacity: .7; }
+.b-banner.solid p { color: var(--ink-2); }
+.b-banner.solid:hover { color: var(--ink); }
+
+/* ---------- 大きな流れる文字（フッター手前） ---------- */
+.b-bigtext { overflow: hidden; padding: 40px 0; background: var(--paper); }
+.b-bigtext div { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+.b-bigtext span { font-family: var(--serif); font-size: clamp(64px, 11vw, 168px); line-height: 1.1; letter-spacing: .04em; padding-right: .6em; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: 1px #d9cfb4; }
+.b-bigtext span:nth-child(even) { -webkit-text-stroke: 0; background: var(--akari-grad); -webkit-background-clip: text; background-clip: text; }
+
+/* ---------- 動画モーダル ---------- */
+.b-modal { border: 0; padding: 0; background: transparent; width: min(960px, 92vw); max-height: 90vh; overflow: visible; }
+.b-modal::backdrop { background: rgba(0, 0, 0, .85); }
+.b-modal video { width: 100%; max-height: 82vh; display: block; border-radius: 14px; background: #000; }
+.b-modal-close { position: absolute; right: 0; top: -52px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .5); background: transparent; color: #fff; font-size: 22px; cursor: pointer; }
+
+/* ---------- 下層ページ ---------- */
+.b-page main { padding-top: 0; }
+.b-page .page-hero { padding-top: calc(var(--bh-h) + 26px + 64px); }
+.b-page .page-hero h1 { font-size: clamp(32px, 4.6vw, 56px); }
+.b-page .lead-figure, .b-page .sub-figure { overflow: hidden; border-radius: var(--radius); }
+
+/* ---------- footer ---------- */
+.bf { background: #1d1d1d; color: #b9b9b9; font-size: 14px; padding: 96px 0 110px; }
+.bf-top { display: grid; grid-template-columns: 1.1fr 2fr; gap: 64px; }
+.bf-brand img { height: 40px; width: auto; margin-bottom: 24px; }
+.bf-brand p { margin: 0 0 4px; }
+.bf-brand .btn { margin-top: 24px; }
+.bf-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+.bf-nav h4 { font-family: var(--serif); color: var(--akari); font-size: 13px; letter-spacing: .3em; margin-bottom: 14px; }
+.bf-nav a { display: block; color: #ddd; padding: 4px 0; transition: color .2s, transform .3s var(--ease); }
+.bf-nav a:hover { color: var(--akari-yellow); transform: translateX(4px); }
+.bf .copyright { border-color: #333; }
+
+/* ---------- 動きを減らす設定 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .bhero-circle svg, .b-marquee-row, .b-bigtext div, .bhero-scroll i::after, .bhero-movie i::after { animation: none; }
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 1180px) {
+  .bh-nav, .bh-tel { display: none; }
+  .bh-menu { display: inline-grid; place-items: center; margin-left: auto; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--akari-grad); cursor: pointer; position: relative; z-index: 90; }
+  .bh-menu span, .bh-menu span::before { display: block; width: 20px; height: 2px; background: var(--ink); position: relative; transition: transform .35s var(--ease), top .35s var(--ease); content: ""; }
+  .bh-menu span { background: none; height: 8px; }
+  .bh-menu span::before, .bh-menu span::after { position: absolute; left: 0; width: 20px; height: 2px; background: var(--ink); content: ""; transition: transform .35s var(--ease), top .35s var(--ease); }
+  .bh-menu span::before { top: 0; }
+  .bh-menu span::after { top: 6px; }
+  .menu-open .bh-menu span::before { top: 3px; transform: rotate(45deg); }
+  .menu-open .bh-menu span::after { top: 3px; transform: rotate(-45deg); }
+  .bh-cta { order: 3; }
+  .menu-open .bh { transform: none; }
+  .menu-open .bh-bar { background: transparent; border-color: transparent; backdrop-filter: none; }
+  .menu-open .bh-logo img { filter: brightness(0) invert(1); }
+  .menu-open .bh-cta .btn { visibility: hidden; }
+  .b-svc-intro { width: 320px; }
+}
+@media (max-width: 860px) {
+  :root { --bh-h: 68px; }
+  .bh-inner { width: calc(100% - 28px); gap: 10px; }
+  .bh-logo img { height: 34px; max-width: calc(100vw - 100px); object-fit: contain; object-position: left center; }
+  .bh-cta .btn { display: none; }
+  .bh-ribbon { font-size: 10.5px; }
+
+  .b-sec { padding: 88px 0; }
+  .b-head { margin-bottom: 40px; }
+  .b-en { font-size: clamp(42px, 13vw, 64px); }
+
+  .bhero { padding-top: calc(var(--bh-h) + 40px + 36px); }
+  .bhero::before { width: 520px; height: 520px; right: -220px; top: -200px; }
+  .bhero-title { font-size: clamp(32px, 9.6vw, 44px); letter-spacing: .06em; margin: 12px 0 18px; }
+  .bhero-title .line { display: block; }
+  .bhero-sub { font-size: 15px; }
+  .bhero-actions { width: 100%; }
+  .bhero-actions > * { flex: 1 1 100%; justify-content: center; }
+  .bhero-movie { font-size: 14px; }
+  .bhero-photo { margin-top: 40px; }
+  .bhero-media { height: auto; min-height: 0; aspect-ratio: 4 / 3.4; clip-path: inset(0 4% 0 4% round 18px); }
+  .bhero-circle { width: 96px; height: 96px; right: 6%; top: -48px; }
+  .bhero-circle text { font-size: 11px; }
+  .bhero-circle::after { width: 28px; height: 28px; }
+  .bhero-scroll { display: none; }
+
+  .b-topics { padding: 40px 0 8px; }
+  .b-topic { width: 250px; }
+  .b-topic > span { font-size: 15px; }
+
+  .b-news { grid-template-columns: 1fr; gap: 8px; }
+  .b-news-list .row { grid-template-columns: 96px 1fr; gap: 6px 12px; padding: 18px 2px; }
+  .b-news-list .ttl { grid-column: 1 / -1; }
+
+  .b-about-text { font-size: clamp(19px, 5.4vw, 24px); line-height: 2.05; }
+  .b-reasons { grid-template-columns: 1fr; gap: 8px; }
+  .b-reasons-head { position: static; }
+  .b-reason { grid-template-columns: 64px 1fr; gap: 14px; padding: 30px 0; }
+  .b-reason-no { font-size: 44px; }
+  .b-stats { margin-top: 56px; grid-template-columns: 1fr; border-radius: 18px; }
+  .b-stat { padding: 26px 16px; display: flex; align-items: baseline; justify-content: space-between; text-align: left; }
+  .b-stat + .b-stat { border-left: 0; border-top: 1px solid var(--line); }
+  .b-stat b { font-size: 46px; }
+
+  .b-svc { padding: 88px 0; }
+  .b-svc-wrap { height: auto; min-height: 0; padding: 0; display: block; }
+  .b-svc-track { display: grid; grid-template-columns: 1fr; gap: 22px; padding: 0 20px; }
+  .b-svc-intro { width: auto; }
+  .b-svc-card { width: auto; }
+  .b-svc-card figure { aspect-ratio: 16 / 10; }
+  .b-svc-body { padding: 22px 22px 24px; }
+  .b-svc-body h3 { font-size: 22px; }
+  .b-svc-progress { display: none; }
+
+  .b-team-grid { grid-template-columns: 1fr; gap: 48px; }
+  .b-team-grid .b-marquee { order: -1; margin: 0 -20px; border-radius: 0; }
+  .b-marquee-row img { width: 120px; height: 150px; border-radius: 12px; }
+  .b-voices { grid-template-columns: 1fr; gap: 48px; }
+  .b-voice blockquote { font-size: 16.5px; }
+  .b-banners { grid-template-columns: 1fr; }
+  .b-banner { min-height: 220px; padding: 24px; }
+
+  .bf { padding: 72px 0 120px; }
+  .bf-top { grid-template-columns: 1fr; gap: 44px; }
+  .bf-nav { grid-template-columns: 1fr 1fr; }
+}

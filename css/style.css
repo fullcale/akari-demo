@@ -523,4 +523,4 @@ body { font-size: 17px; font-weight: 500; }
   .staff.lead .staff-media { aspect-ratio: 1; height: auto; min-height: 0; }
 }
 
-@media (max-width: 1100px) { .staff.lead { grid-template-columns: 360px minmax(0, 1fr); } .staff.lead .staff-media { min-height: 360px; } }
+@media (min-width: 861px) and (max-width: 1100px) { .staff.lead { grid-template-columns: 360px minmax(0, 1fr); } .staff.lead .staff-media { min-height: 360px; } }
