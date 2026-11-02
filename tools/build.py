@@ -730,6 +730,7 @@ def build_contact():
                      "ご相談・お見積もりは無料です。1〜2営業日以内に担当者からご連絡します。") + f"""
 <section class="section"><div class="container layout-2col">
   <div>
+    <div class="contact-tel"><span>お電話でのご相談</span><a href="{TEL_LINK}">{OFFICE['tel']}</a><small>平日 {OFFICE['hours']}（{OFFICE['closed']}休み）</small></div>
     <form class="form" id="contact-form">
       <div class="form-row"><label class="lbl">ご相談の内容 <span class="opt">複数選択可</span></label><div class="chips">{chips}</div></div>
       <div class="form-row"><label class="lbl" for="f-name">お名前 <span class="req">必須</span></label><input type="text" id="f-name" required autocomplete="name" placeholder="高松 太郎"></div>
@@ -745,10 +746,8 @@ def build_contact():
     </form>
     <div class="form-done form"><h3 style="font-size:22px;margin-bottom:12px">送信を受け付けました（デモ）</h3><p>本番では、担当者から1〜2営業日以内にご連絡します。<br>※デモサイトのため、実際には送信されていません。</p></div>
   </div>
-  <aside class="side-nav"><h4>お電話でのご相談</h4>
-    <a href="{TEL_LINK}" style="font-family:var(--serif);font-size:24px;font-weight:600">{OFFICE['tel']}</a>
-    <p class="note" style="margin:6px 12px 0">平日 {OFFICE['hours']}<br>{OFFICE['closed']}は休み</p>
-    <div class="side-cta" style="text-align:left">よくある質問もご覧ください<a class="btn btn-ghost btn-sm" href="{u('yorozu')}">よくある質問</a></div>
+  <aside class="side-nav"><h4>ご相談の前に</h4>
+    <a href="{u('yorozu')}">よくある質問</a><a href="{u('fee')}">料金について</a><a href="{u('houzin')}">事務所案内・アクセス</a>
   </aside>
 </div></section>"""
     page("contact", "お問い合わせ", "税理士法人ACEあかり事務所へのお問い合わせ・無料相談。お電話（087-814-7134）またはフォームから。", body, "contact")

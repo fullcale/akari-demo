@@ -2,8 +2,8 @@
 :root {
   /* ロゴの文字（黒・グレー） */
   --ink: #262626;
-  --ink-2: #555;
-  --ink-3: #8a8a8a;
+  --ink-2: #333;
+  --ink-3: #666;
   --paper: #fffdf8;
   --paper-2: #fbf6e6;
   --white: #fff;
@@ -13,12 +13,12 @@
   --akari-yellow: #f8d830;
   --akari: #f0b830;
   --akari-orange: #f09800;
-  --akari-deep: #b56f00;   /* 白地の小さな文字用（コントラスト確保） */
+  --akari-deep: #8a5300;   /* 白地の小さな文字用（コントラスト比 6.2） */
   --akari-soft: #fdf5d2;
   --akari-grad: linear-gradient(100deg, #f8e46a 0%, #f0c030 45%, #f09800 100%);
   /* 旧ティールの役割（リンク・強調）も金系に寄せる */
-  --teal: #b56f00;
-  --teal-deep: #8a5300;
+  --teal: #8a5300;
+  --teal-deep: #6b4000;
   --teal-soft: #fdf5d2;
   --serif: "Shippori Mincho B1", "Yu Mincho", "Hiragino Mincho ProN", serif;
   --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
@@ -320,7 +320,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .sp-cta { display: none; }
 
 /* ---------- responsive ---------- */
-@media (max-width: 1080px) {
+@media (max-width: 1360px) {
   .gnav, .header-tel { display: none; }
   .menu-btn { display: inline-grid; place-items: center; margin-left: auto; width: 46px; height: 46px; border-radius: 10px; border: 1px solid var(--line); background: var(--white); cursor: pointer; }
   .menu-btn span, .menu-btn span::before, .menu-btn span::after { display: block; width: 20px; height: 2px; background: var(--ink); position: relative; transition: .2s; content: ""; }
@@ -329,7 +329,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .nav-open .menu-btn span { background: transparent; }
   .nav-open .menu-btn span::before { top: 0; transform: rotate(45deg); }
   .nav-open .menu-btn span::after { top: 0; transform: rotate(-45deg); }
-  .nav-open .gnav { display: block; position: fixed; inset: 76px 0 0; background: var(--paper); padding: 20px 24px; overflow: auto; }
+  .nav-open .gnav { display: block; position: fixed; inset: 84px 0 0; background: var(--paper); padding: 20px 24px; overflow: auto; }
   .nav-open .gnav > ul { flex-direction: column; }
   .nav-open .gnav a { font-size: 18px; padding: 16px 8px; border-bottom: 1px solid var(--line); border-radius: 0; }
   .header-cta { order: 3; }
@@ -444,4 +444,49 @@ ul { margin: 0; padding: 0; list-style: none; }
   .voice { padding: 26px 22px 22px; }
   .staff-photo { margin-bottom: 28px; }
   .cta { padding: 60px 0; }
+}
+
+/* ---------- 2026-11-02 改訂2：文字を大きく・濃く（比較レビューの指摘） ---------- */
+body { font-size: 17px; font-weight: 500; }
+/* 1. ロゴ */
+.site-header .container { width: min(1400px, 100% - 64px); }
+.header-inner { height: 84px; gap: 24px; }
+.logo img { height: 46px; }
+.footer-brand img { height: 40px; }
+/* 3. ナビ */
+.gnav > ul { gap: 2px; }
+.gnav a { font-size: 16px; font-weight: 700; padding: 8px 10px; white-space: nowrap; }
+.header-tel, .header-cta .btn { white-space: nowrap; }
+.header-tel small { font-size: 13px; }
+/* 5. 本文まわり */
+.reason p, .svc-item p, .svc-body p, .voice blockquote, .worries li, .faq .faq-a, .mini-card p, .mini-card ul, .info-table { font-size: 16px; }
+.voice-who { font-size: 15px; }
+.voice-who span, .note { font-size: 14px; }
+.sec-en { font-size: 14px; }
+.hero-stat span, .hero-tel small { font-size: 13px; }
+/* 6. スタッフ紹介 */
+.staff-body h3 { font-size: 26px; }
+.staff-body dl { font-size: 15px; }
+.staff-body dt { color: #555; }
+.staff-body p { font-size: 15.5px; }
+.staff-role { font-size: 13px; }
+/* 8. お問い合わせ：電話番号をフォームより上に大きく */
+.contact-tel { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; background: var(--akari-soft); border-radius: 18px; padding: 24px 32px; margin-bottom: 28px; }
+.contact-tel span { font-weight: 700; }
+.contact-tel a { font-family: var(--serif); font-size: clamp(30px, 4vw, 40px); font-weight: 600; color: var(--ink); letter-spacing: .04em; line-height: 1.2; white-space: nowrap; }
+.contact-tel small { width: 100%; color: var(--ink-2); font-size: 14px; }
+/* 9. チェックボックス */
+.form input[type="checkbox"]:not(.chips input) { width: 22px; height: 22px; accent-color: var(--akari); vertical-align: -5px; margin-right: 6px; }
+/* 10. 改行位置 */
+.worries li, .reason p, .svc-item p, .voice blockquote { text-wrap: pretty; word-break: auto-phrase; }
+@media (max-width: 860px) {
+  body { font-size: 16px; }
+  .hero { padding-top: 0; }
+  .header-inner { height: 68px; }
+  .nav-open .gnav { inset: 68px 0 0; }
+  .logo img { height: 28px; }
+  .svc-label { font-size: 15px; padding: 6px 12px; }
+  .staff-body h3 { font-size: 24px; }
+  .sp-cta a small { font-size: 12px; }
+  .contact-tel { padding: 20px 22px; }
 }
