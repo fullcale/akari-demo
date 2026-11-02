@@ -482,9 +482,11 @@ body { font-size: 17px; font-weight: 500; }
 @media (max-width: 860px) {
   body { font-size: 16px; }
   .hero { padding-top: 0; }
-  .header-inner { height: 68px; }
-  .nav-open .gnav { inset: 68px 0 0; }
-  .logo img { height: 28px; }
+  .site-header .container { width: calc(100% - 28px); }
+  .header-inner { height: 74px; gap: 10px; }
+  .nav-open .gnav { inset: 74px 0 0; }
+  .logo img { height: 40px; max-width: calc(100vw - 92px); object-fit: contain; object-position: left center; }
+  .menu-btn { flex: none; }
   .svc-label { font-size: 15px; padding: 6px 12px; }
   .staff-body h3 { font-size: 24px; }
   .sp-cta a small { font-size: 12px; }
