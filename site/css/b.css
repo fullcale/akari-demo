@@ -126,7 +126,7 @@ html:not(.anim) .bhero-media { clip-path: none; }
 .b-topics .swiper-wrapper { transition-timing-function: linear !important; }
 .b-topic { width: 340px; display: block; color: var(--ink); }
 .b-topic figure { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper-2); }
-.b-topic img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.b-topic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; transition: transform .8s var(--ease); }
 .b-topic:hover img { transform: scale(1.06); }
 .b-topic > span { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-weight: 700; font-size: 16px; }
 .b-topic > span::after { content: "→"; color: var(--akari-deep); }
@@ -184,7 +184,7 @@ html:not(.anim) .b-about-text .ch { color: #fff; }
 .b-svc-card { flex: none; width: 420px; background: var(--white); border-radius: 22px; overflow: hidden; color: var(--ink); box-shadow: var(--shadow); display: flex; flex-direction: column; }
 .b-svc-card:hover { color: var(--ink); }
 .b-svc-card figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; }
-.b-svc-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+.b-svc-card img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; transition: transform .9s var(--ease); }
 .b-svc-card:hover img { transform: scale(1.06); }
 .b-svc-body { padding: 26px 30px 30px; flex: 1; display: flex; flex-direction: column; }
 .b-svc-body em { font-style: normal; font-family: var(--serif); color: var(--akari-deep); font-size: 15px; letter-spacing: .2em; }

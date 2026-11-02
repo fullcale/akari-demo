@@ -63,6 +63,8 @@ if (window.Swiper && document.querySelector('.b-topics')) {
 function splitChars(el) {
   const text = el.textContent;
   el.setAttribute('aria-label', text);
+  // 親の金色（文字で切り抜く背景）は外す。残すと別の文字の形が薄く重なって見える
+  if (el.classList.contains('b-en')) el.style.background = 'none';
   el.innerHTML = [...text].map((c) => `<span class="ch" aria-hidden="true">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
   return el.querySelectorAll('.ch');
 }
