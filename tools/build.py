@@ -238,7 +238,7 @@ def footer():
 <script src="js/main.js?v={ASSET_VER}"></script>"""
 
 
-def page(slug, title, desc, body, current=None, home=False):
+def page(slug, title, desc, body, current=None, home=False, cta=True):
     b = VARIANT == "b"
     full_title = title if home else f"{title}｜高松市の税理士 税理士法人ACEあかり事務所"
     canonical = ORIGIN + "/" + slug
@@ -270,7 +270,7 @@ def page(slug, title, desc, body, current=None, home=False):
 <main>
 {body}
 </main>
-{cta_block()}
+{cta_block() if cta else ""}
 {b_footer() if b else footer()}
 </body>
 </html>
@@ -792,9 +792,7 @@ def build_contact():
 # ---------------------------------------------------------------- B案（神山まるごと高専の構成・動きを参考）
 
 GSAP = "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist"
-SWIPER = "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min"
-B_HEAD = f"""<link rel="stylesheet" href="{SWIPER}.css">
-<link rel="stylesheet" href="css/b.css?v={ASSET_VER}">
+B_HEAD = f"""<link rel="stylesheet" href="css/b.css?v={ASSET_VER}">
 <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('anim');</script>
 """
 
@@ -867,7 +865,6 @@ def b_footer():
 </div>
 <script src="{GSAP}/gsap.min.js"></script>
 <script src="{GSAP}/ScrollTrigger.min.js"></script>
-<script src="{SWIPER}.js"></script>
 <script src="js/main.js?v={ASSET_VER}"></script>
 <script src="js/b.js?v={ASSET_VER}"></script>"""
 
@@ -887,32 +884,12 @@ def b_more(href, label):
 
 
 def build_index_b():
-    topics = [
-        ("souzoku", "相続・事業承継", "生前の対策から申告まで", "main-souzoku"),
-        ("zeimu", "会計・税務", "毎月の訪問で、決算に慌てない", "main-zeimu"),
-        ("support", "経営サポート", "起業前のご相談から", "main-support"),
-        ("roumu", "労務・社会保険", "社労士が同じ事務所に", "main-roumu"),
-        ("staff", "スタッフ紹介", "自己紹介動画をご覧いただけます", "top-staff"),
-        ("school", "経営実務スクール", "税理士が講師の実務講座", "main-school"),
-        ("voice", "お客様の声", "長くお付き合いのお客様に伺いました", "voice-kawaji"),
-        ("fee", "料金について", "お見積もりは無料です", "sub-zeimu"),
-        ("recruit", "採用情報", "通年で募集しています", "sub-support"),
-        ("cowork", "他士業との連携", "弁護士・司法書士などと連携", "main-cowork"),
-    ]
-    topics_html = "".join(f"""<a class="b-topic swiper-slide" href="{u(s)}"><figure><img src="img/{im}.webp" alt="" loading="lazy"></figure>
-  <span><span>{t}<small>{d}</small></span></span></a>""" for s, t, d, im in topics)
-
-    cats = list(dict.fromkeys(c for _, c, *_ in NEWS))
-    tabs = '<button type="button" data-cat="all" aria-pressed="true">すべて</button>' + "".join(
-        f'<button type="button" data-cat="{c}" aria-pressed="false">{c}</button>' for c in cats)
-    news = "".join(
-        f'<li data-cat="{c}"><div class="row"><time>{d}</time><span class="tag">{c}</span><span class="ttl">{f"<span class=tbd>{x}</span>" if t else x}</span></div></li>'
-        for d, c, x, t in NEWS)
-
-    about = ["税理士法人ACE「あかり事務所」の名称の由来は「一隅を照らす」という言葉です。",
-             "ひとりひとりがそれぞれの立場・役割において全力をつくしその場を照らす、そのことがひいては社会全体をあかるく照らすことに繋がっていく。",
-             "私たちは税理士という役割を担いその使命を果たすことで少しでも皆様のお役に立ちたい。そんな思いが込められております。"]
-    about_html = "".join(f'<p aria-label="{t}">{chars(t)}</p>' for t in about)
+    # 並びは「顧問先を増やす」ための順番（2026-11-02 オーナー決定）：
+    # どんな人たちか → 自分の困りごとか → 何を頼めるか → なぜここか → 担当する人 → お客様の評価 → 考え方 → 相談してよいと思える → 相談
+    worries = ["決算のたびに、納税額を見て驚いている", "試算表は届くけれど、数字の見方が分からない",
+               "起業したいが、個人と法人のどちらが得か迷っている", "うちに相続税がかかるのか、まず知りたい",
+               "そろそろ後継者への引き継ぎを考えはじめた", "従業員が増えて、社会保険や就業規則が不安"]
+    worries_html = "".join(f"<li>{w}</li>" for w in worries)
 
     reasons = [
         ("01", "毎月、顔を合わせる税理士", "毎月の訪問で会計資料を確認し、経営状況を分かりやすくご説明します。決算の着地点や納税額を早めに予測できるので、「決算で慌てない」状態をつくれます。"),
@@ -934,6 +911,21 @@ def build_index_b():
 
     voices = "".join(f"""<a class="b-voice" href="{u('voice')}" data-anim><figure data-parallax><img src="img/{im}.webp" alt="{n}" loading="lazy"></figure>
   <blockquote>{q}</blockquote><b>{n}</b><small>{k}</small></a>""" for im, n, k, q, *_ in VOICES)
+
+    about = ["税理士法人ACE「あかり事務所」の名称の由来は「一隅を照らす」という言葉です。",
+             "ひとりひとりがそれぞれの立場・役割において全力をつくしその場を照らす、そのことがひいては社会全体をあかるく照らすことに繋がっていく。",
+             "私たちは税理士という役割を担いその使命を果たすことで少しでも皆様のお役に立ちたい。そんな思いが込められております。"]
+    about_html = "".join(f'<p aria-label="{t}">{chars(t)}</p>' for t in about)
+
+    # 料金ページ「料金が決まるまで」と同じ内容
+    flow = [("01", "無料相談", "お電話・メールで、ご依頼内容や会社の状況をお聞かせください。"),
+            ("02", "お見積もり（無料）", "業務の範囲と金額を、書面で事前にご提示します。"),
+            ("03", "ご契約", "内容にご納得いただいてから契約となります。見積もりだけでも構いません。")]
+    flow_html = "".join(f'<li><span>{n}</span><h3>{t}</h3><p>{d}</p></li>' for n, t, d in flow)
+
+    news = "".join(
+        f'<li><div class="row"><time>{d}</time><span class="tag">{c}</span><span class="ttl">{f"<span class=tbd>{x}</span>" if t else x}</span></div></li>'
+        for d, c, x, t in NEWS[:3])
 
     body = f"""<div class="b-open" aria-hidden="true"><img src="img/logo-mark.webp" alt=""><i></i></div>
 
@@ -959,29 +951,23 @@ def build_index_b():
   </div>
 </section>
 
-<section class="b-topics swiper" aria-label="ピックアップ"><div class="swiper-wrapper">{topics_html}</div></section>
-
-<section class="b-sec">
-  <div class="container b-news">
-    <div>{b_head("News", "お知らせ")}</div>
-    <div data-anim>
-      <div class="b-tabs" role="group" aria-label="分類で絞り込む">{tabs}</div>
-      <ul class="b-news-list">{news}</ul>
-      <p style="margin-top:32px">{b_more(u('news'), 'お知らせ一覧をみる')}</p>
-    </div>
+<section class="b-sec b-worries">
+  <div class="container">
+    {b_head("Worries", "こんなこと、ありませんか？", center=True)}
+    <ul class="b-worries-list" data-anim="stagger">{worries_html}</ul>
+    <p class="b-worries-answer" data-anim>「どこに聞けばいいか分からない」は、<em>まず私たちに。</em></p>
   </div>
 </section>
 
-<section class="b-sec b-about">
-  <div class="b-about-glow"></div>
-  <div class="container">
-    <span class="b-en" data-split>Philosophy</span>
-    <div class="b-about-text">{about_html}</div>
-    <div class="b-about-sign" data-anim>
-      <div class="who"><small>代表社員 税理士</small><b>藤本 博之</b></div>
-      {b_more(u('greeting'), '代表挨拶を読む')}
+<section class="b-svc">
+  <div class="b-svc-wrap">
+    <div class="b-svc-track">
+      <div class="b-svc-intro">{b_head("Service", "業務案内", "日々の記帳から決算、相続、労務まで。ひとつの事務所で、経営と暮らしのお金をまとめてサポートします。")}
+        <p>{b_more(u('fee'), '料金の目安をみる')}</p></div>
+      {svc_cards}
     </div>
   </div>
+  <div class="b-svc-progress"><i></i></div>
 </section>
 
 <section class="b-sec">
@@ -998,20 +984,9 @@ def build_index_b():
   </div>
 </section>
 
-<section class="b-svc">
-  <div class="b-svc-wrap">
-    <div class="b-svc-track">
-      <div class="b-svc-intro">{b_head("Service", "業務案内", "日々の記帳から決算、相続、労務まで。ひとつの事務所で、経営と暮らしのお金をまとめてサポートします。")}
-        <p>{b_more(u('fee'), '料金の目安をみる')}</p></div>
-      {svc_cards}
-    </div>
-  </div>
-  <div class="b-svc-progress"><i></i></div>
-</section>
-
 <section class="b-sec b-team">
   <div class="container b-team-grid">
-    <div class="b-team-body">{b_head("Our Team", "チームでサポートします")}
+    <div class="b-team-body">{b_head("Our Team", "担当するのは、この人たちです")}
       <div data-anim>
         <p>税理士・社会保険労務士・経営承継アドバイザーを含むスタッフが、チームでお客様を担当します。</p>
         <p>スタッフ紹介では、一人ひとりのプロフィールと<b>自己紹介動画</b>をご覧いただけます。どんな人が担当するのか、ご相談の前にぜひご覧ください。</p>
@@ -1033,11 +1008,40 @@ def build_index_b():
   </div>
 </section>
 
-<section class="b-sec" style="padding-top:0">
-  <div class="container b-banners" data-anim="stagger">
-    <a class="b-banner" href="{u('recruit')}"><img src="img/sub-support.webp" alt="" loading="lazy"><em>RECRUIT</em><h3>一緒に働く仲間を募集しています</h3><p>簿記2級以上の方、税理士・科目合格者の方。通年で採用しています。</p></a>
-    <a class="b-banner solid" href="{u('yorozu')}"><em>Q&amp;A</em><h3>よくあるご質問</h3><p>見積もりだけでも大丈夫？ 料金は？ など</p></a>
-    <a class="b-banner" href="{u('fee')}"><img src="img/sub-souzoku.webp" alt="" loading="lazy"><em>FEE</em><h3>料金について</h3><p>必ず事前にお見積もりします</p></a>
+<section class="b-sec b-about">
+  <div class="b-about-glow"></div>
+  <div class="container">
+    <span class="b-en" data-split>Philosophy</span>
+    <div class="b-about-text">{about_html}</div>
+    <div class="b-about-sign" data-anim>
+      <div class="who"><small>代表社員 税理士</small><b>藤本 博之</b></div>
+      {b_more(u('greeting'), '代表挨拶を読む')}
+    </div>
+  </div>
+</section>
+
+<section class="b-sec b-consult">
+  <div class="container">
+    {b_head("Flow", "ご相談の流れ", "ご相談・お見積もりは無料です。料金は、ご依頼の内容・仕事量・難易度によって異なります。必ず事前にお見積もりし、ご同意いただいてから決定します。", center=True)}
+    <ol class="b-flow" data-anim="stagger">{flow_html}</ol>
+    <div class="b-consult-faq">
+      <h3 data-anim>よくあるご質問</h3>
+      {faq_html(FAQ[:4])}
+      <p class="b-consult-links" data-anim>{b_more(u('yorozu'), 'すべての質問をみる')}{b_more(u('fee'), '料金の目安をみる')}</p>
+    </div>
+  </div>
+</section>
+
+{cta_block()}
+
+<section class="b-sec">
+  <div class="container b-info">
+    <div data-anim>
+      <h2 class="b-info-title">お知らせ</h2>
+      <ul class="b-news-list">{news}</ul>
+      <p style="margin-top:24px">{b_more(u('news'), 'お知らせ一覧をみる')}</p>
+    </div>
+    <a class="b-banner" href="{u('recruit')}" data-anim><img src="img/sub-support.webp" alt="" loading="lazy"><em>RECRUIT</em><h3>一緒に働く仲間を募集しています</h3><p>簿記2級以上の方、税理士・科目合格者の方。通年で採用しています。</p></a>
   </div>
 </section>
 
@@ -1054,7 +1058,7 @@ def build_index_b():
 <dialog class="b-modal"><button class="b-modal-close" type="button" aria-label="閉じる">×</button><video controls playsinline></video></dialog>"""
     page("", "高松市の税理士事務所｜税理士法人ACEあかり事務所",
          "香川県高松市木太町の税理士法人ACEあかり事務所。毎月の訪問による会計・税務サポート、相続・事業承継、起業支援、社労士と連携した労務まで。ご相談・お見積もりは無料です。",
-         body, home=True)
+         body, home=True, cta=False)
 
 
 if __name__ == "__main__":
